@@ -42,7 +42,7 @@ A simple **Library Management System** built using Python that allows users to m
 ## ⚙️ How to Run
 
 1. Clone the repository using:
-`git clone https://github.com/ashutoshkashyap04/Library_Management_System`
+`git clone https://github.com/ashutoshkashyap04/Library-Management-System`
 
 2. Go to the project folder:
 `cd Library_Management_System`

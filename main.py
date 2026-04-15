@@ -1,8 +1,6 @@
 # LIBRARY MANAGEMENT SYSTEM
 
 
-
-
 class LibraryItem:
 
     def __init__(self,title,author,availability=True):
@@ -11,7 +9,7 @@ class LibraryItem:
         self.availability = availability
 
 
-    #function to check item is available or not
+    #Checking item availability
     def item_available(self):
         if(self.availability==True):
             return "Item is available"
@@ -19,41 +17,40 @@ class LibraryItem:
             return "Item is not available"
 
 
-    #function to print
     def __str__(self):
         return f"Book {self.title} written by {self.author}"
     
-
+# Function to validate titles and authors
 def validate_titles_or_authors(word):
-    if word=="":
+    if word == "":
         return "Title/Author name can't be empty"
     return None
 
 
-
-#creating Book class which inherits the LibraryItem class
+ 
+#Creating Book class which inherits the LibraryItem class
 class Book(LibraryItem):
     def __init__(self,title, author, ISBN):
         super().__init__(title, author)
         self.ISBN=ISBN
 
-    #to print the ISBN number
+    # Print the ISBN number
     def __str__(self):
         return f"{super().__str__()} \nISBN number of the book is {self.ISBN}"
 
 
 
-    #function to allow user to borrow book
+    #Function to allow user to borrow book
     def borrow_book(self):
         if(self.availability==True):
             self.availability=False
             return f"Book borrowed successfully"
         else:
             return f"Book is not available"
-        
+       
 
 
-    #function to allow user to return book
+    #Function to allow user to return book
     def return_book(self):
         if(self.availability==False):
             self.availability=True
@@ -62,7 +59,7 @@ class Book(LibraryItem):
             return f"Book is already in the library"
     
 
-
+# Function to check validation of 10-digit ISBN
 def is_valid_ISBN_10(ISBN :str):
     if len(ISBN)!=10:
         return False
@@ -84,7 +81,7 @@ def is_valid_ISBN_10(ISBN :str):
     return total%11==0
 
 
-
+# Function to check validation of 13-digit ISBN
 def is_valid_ISBN_13(ISBN:str):
     if len(ISBN)!=13 or not ISBN.isdigit():
         return False
@@ -101,7 +98,7 @@ def is_valid_ISBN_13(ISBN:str):
 
 
 
-
+# Function to format ISBN and check validity
 def validate_ISBN(ISBN:str):
     isbn=ISBN.replace("-","").replace(" ","")
     if len(isbn)==10:
@@ -115,33 +112,35 @@ def validate_ISBN(ISBN:str):
 
 class User:
 
-    def __init__(self,name,user_id,borrowed_books=None):         #empty list is not assigned in the constructor because it is mutable, so every time a new list will be created
+    def __init__(self,name,user_id,borrowed_books=None):        
         self.name=name
         self.user_id=user_id
-        self.borrowed_books=borrowed_books if borrowed_books is not None else []          #checking if user is provided with the list or not , if not provided , an empty list will be created
+        self.borrowed_books=borrowed_books if borrowed_books is not None else []         
 
-    #function to add borrowed book in the user borrowed book list
+
+    #Function to add borrowed book in the user borrowed book list
     def add_borrowed_book(self, book):
         if not book in self.borrowed_books:
             self.borrowed_books.append(book)
+            return "Book borrowed successfully"
         else:
-            print("Book is already borrowed")
+            return "Book is already borrowed"
 
-    #function to remove borrowed book from the user borrowed book list
+    #Function to remove borrowed book from the user borrowed book list
     def remove_borrowed_book(self, book):
        self.borrowed_books.remove(book)
+       return "Book removed successfully"
 
-    #function to display all borrowed books by the user
+    #Function to display all borrowed books by the user
     def display_borrowed_books(self):
         if len(self.borrowed_books)==0:
             return f"{self.name} has not borrowed any of the books"
-
         else:
            book_info ="\n".join(str(book) for book in self.borrowed_books)
            return f"Books borrowed by {self.name}:\n{book_info}"
 
 
-    #function to allow user to borrow book
+    #Function to allow user to borrow book
     def borrow_book(self, book):
         if book.availability:
             book.availability = False
@@ -151,7 +150,7 @@ class User:
             return f"{book.title} is not available"
 
 
-    #function to allow user to return book
+    #Function to allow user to return book
     def return_book(self, book):
         if book in self.borrowed_books:
             book.availability = True
@@ -162,22 +161,24 @@ class User:
 
 
 
-#creating book list present in the library
+#Creating book list present in the library
 book_list=[]
 def add_book(book):
     book_list.append(book)
+    return "Book added successfully"
 
 
 
-#creating user list
+#Creating user list
 user_list=[]
 def add_user(user):
     user_list.append(user)
+    return "User added successfully"
 
 
 
 
-#function to search book by title
+# Function to search book by title
 def search_books_by_title(title):
     for book in book_list:
         if book.title.lower()==title.lower():
@@ -186,7 +187,7 @@ def search_books_by_title(title):
 
 
 
-#function to find books by a particular author and store them in the list
+# Function to find books by a particular author and store them in the list
 def find_books_by_author(author):
     books_by_author=[]
     for book in book_list:
@@ -195,7 +196,7 @@ def find_books_by_author(author):
     return books_by_author
 
 
-#function to find user by ID
+# Function to find user by ID
 def search_user_by_id(user_id):
     for user in user_list:
         if user.user_id==user_id:
@@ -204,10 +205,7 @@ def search_user_by_id(user_id):
 
 
 
-
-
-#function to get all available books, not borrowed
-
+# Function to get all available books, not borrowed
 def get_available_books():
     available_books = []
     for book in book_list:
@@ -217,7 +215,7 @@ def get_available_books():
 
 
 
-#function to count total number of books and available books
+# Function to count total number of books and available books
 def count_books():
     total=len(book_list)
     available=len(get_available_books())
@@ -225,11 +223,7 @@ def count_books():
     print(f"Number of available books: {available}")
 
 
-
-
-
-
-
+# Function to display all books in the library
 def display_all_books():
     if len(book_list)==0:
         print("No books in the library")        #not using return because in the else block, loop is there 
@@ -238,7 +232,7 @@ def display_all_books():
             print(f"Book Title: {book.title}, Author: {book.author}, Available: {book.availability} \n")
 
 
-#function to display user  and their borrowed books
+# Function to display user  and their borrowed books
 def display_users_and_books():
     if len(user_list)==0:
         return "No users in the library"
@@ -248,36 +242,38 @@ def display_users_and_books():
             user.display_borrowed_books()
 
 
-#function to save books to a file
+# Function to save books to a file
 def save_books_to_file(filename):
     try:
-        with open(filename , "w") as file:
-            file.write("Books in the library:\n")
+        with open(filename, "w") as file:
             for book in book_list:
-                file.write(f"{book.title} by {book.author}\n")
-    except Exception as e:
-        print("Some problem occurred while saving books:", e)
+                file.write(f"{book.title}|{book.author}|{book.isbn}|{book.availability}\n")
+        return "Books saved successfully"
+    except OSError as e:
+        return f"Error saving books: {e}"
 
-
-#function to load books from a file
+# Function to load books from file
 def load_books_from_file(filename):
     try:
-        with open(filename, "r")  as file:
-            lines=file.readlines()
-            for line in lines:
-                print(line)
+        with open(filename, "r") as file:
+            for line in file:
+                title, author, isbn, availability = line.strip().split("|")
+                book = Book(title, author, isbn)
+                book.availability = availability == "True"
+                book_list.append(book)
+        return "Books loaded successfully"
     except FileNotFoundError:
-        print("File not found")
+        return "File not found"
+    except ValueError:
+        return "Error in file format"
 
 
 
 
-
-
-#function to provide the options to the user
+# Function to provide the options to the user
 if __name__=="__main__":
     def Menu_display():
-        print("Library Menu")
+        print("\n=== Library Menu ===")
         print("1. Add  a new Book")
         print("2. View all  Books")
         print("3. Search for a  Book  by title")
@@ -287,16 +283,17 @@ if __name__=="__main__":
         print("7. Allow user to return a book")
         print("8. Save data to file")
         print("9. Load data from file")
-        print("10. Count total and available books")
+        print("10. Count total books")
         print("11. Search for a book by author")
         print("12. Exit")
 
 
-    while True:   #to run the menu in an infinite loop
+    while True:
         Menu_display()
         choice=int(input("Enter your choice: "))
         try:
             if choice==1:
+                # Add a new book
                 title=input("Enter book title: ")
                 author=input("Enter book author: ")
                 ISBN=input("Enter book ISBN: ")
@@ -306,13 +303,14 @@ if __name__=="__main__":
 
 
             elif choice==2:
+                #View all books
                 display_all_books()
 
 
             elif choice==3:
+                #Search for a book by title
                 title=input("Enter book title to search: ")
                 book=search_books_by_title(title)
-
                 if book:
                     print(f"Found: {book}")
                     print(f"Availability: {book.item_available()}")
@@ -321,6 +319,7 @@ if __name__=="__main__":
 
 
             elif choice==4:
+                # Add new user
                 name=input("Enter user name: ")
                 user_ID=input("Enter user ID: ")
                 user=User(name,user_ID)
@@ -329,10 +328,12 @@ if __name__=="__main__":
 
 
             elif choice==5:
+                #View all users
                 display_users_and_books()
 
 
-            elif choice==6:    #Allow user to borrow a book
+            elif choice==6:   
+                #Allow user to borrow a book
                 user_id=input("Enter user ID: ")
                 book_title=input("Enter book title: ")
                 user=search_user_by_id(user_id)
@@ -345,7 +346,8 @@ if __name__=="__main__":
 
 
 
-            elif choice==7:    #Allow user to return a book
+            elif choice==7:    
+                #Allow user to return a book
                 user_id=input("Enter user ID: ")
                 book_title=input("Enter book title: ")
                 user=search_user_by_id(user_id)
@@ -358,22 +360,26 @@ if __name__=="__main__":
 
 
             elif choice==8:
+                #Save data to file
                 filename=input("Enter filename to save data: ")
                 save_books_to_file(filename)
 
 
             elif choice==9:
+                #Load data from file
                 filename=input("Enter filename to load data: ")
                 load_books_from_file(filename)
 
 
             elif choice==10:
+                #Count total books
                 count_books()
 
 
 
 
             elif choice==11:
+                #Search for books by author nae
                 author=input("Enter author name to search: ")
                 books=find_books_by_author(author)
                 print(books)
@@ -389,19 +395,3 @@ if __name__=="__main__":
             print("An error occurred:", e)
 
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
