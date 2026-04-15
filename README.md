@@ -45,7 +45,7 @@ A simple **Library Management System** built using Python that allows users to m
 `git clone https://github.com/ashutoshkashyap04/Library-Management-System`
 
 2. Go to the project folder:
-`cd Library_Management_System`
+`cd Library-Management-System`
 
 3. Run the program:
 `python main.py`
